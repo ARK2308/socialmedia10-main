@@ -1,0 +1,174 @@
+<%- include('partials/header')%>
+  <!--  -->
+  <style>
+   
+    .icon-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      color: #858282;
+      transition: color 0.3s;
+    }
+  
+    .icon-container a {
+      display: block;
+      margin-top: 4px;
+      color: #858282;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+  
+    .icon-container i {
+      color: #858282;
+      transition: color 0.3s;
+    }
+  
+    .icon-container:hover,
+    .icon-container a:hover,
+    .icon-container i:hover {
+      color: #5dade2;
+    }
+  
+   
+  </style>
+  
+  <div class="container w-[100%]   h-screen flex gap-3">
+    <!-- Left Sidebar -->
+    <div class="leftarea1 w-56 h-screen border-current bg-blue-100 flex flex-col">
+      <div class="group1 h-36">
+        <div class="text-center py-5">
+          <h1 class="text-2xl mt-5 font-bold">Settings</h1>
+        </div>
+      </div>
+      <div class="group2 h-96 flex flex-col justify-between items-center">
+        <div class="icon-container">
+          <i class="ri-home-2-fill text-2xl"></i>
+          <a href="/home" class="text-xs font-bold">Home</a>
+        </div>
+        <div class="icon-container">
+          <i class="ri-user-2-fill text-2xl"></i>
+          <a href="/user/profile" class="text-xs font-bold">Profile</a>
+        </div>
+        <div class="icon-container">
+          <i class="ri-message-2-fill text-2xl"></i>
+          <a href="/contact" class="text-xs font-bold">Contact</a>
+        </div>
+        <div class="icon-container">
+          <i class="ri-account-pin-circle-fill text-2xl"></i>
+          <a href="/about" class="text-xs font-bold">About</a>
+        </div>
+        <div class="icon-container">
+          <i class="ri-message-2-fill text-2xl"></i>
+          <a href="/user/chat" class="text-xs font-bold">Chat</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- setting right side area  -->
+       <div class="rightarea w-full h-[85%] rounded-lg mx-auto mt-[3%] ml-[6%] bg-slate-100 flex flex-row">
+           <div class="rightarea1 w-[55%]  h-full rounded-lg ml-2">
+            <div class="photo w-[100%] h-[40%] rounded-lg bg-white mt-3 shadow-lg flex ">
+              <div>
+                <img class="avatarimage rounded-full w-[12vmax] h-[12vmax] object-cover ml-[10%] mt-4 border-4  " src="<%= user.avatar.url%>"
+                  alt="No image Found">
+                  
+              <form method="post" class="avatarform hidden" action="/user/avatar/<%= user._id%>"
+                enctype="multipart/form-data">
+                <input class="avatarinput" type="file" name="avatar">
+              </form>
+              </div>
+              <div class="ml-10 mt-10  h-[55%]">
+                <h1 class="text-3xl font-extrabold text-center mt-3 ">
+                  <%= user.username%>
+                </h1>
+                <p class="mt-2  text-center  w-56">
+                  "The only limit to our realization of tomorrow is our doubts of today."
+                </p>
+              </div>
+            </div>
+            <div class="w-[100%] h-[53%] rounded-lg bg-white mt-3">
+
+              <form class="text-xl m-auto " action="/user/update/<%= user._id%>" method="post">
+                <h1 class=" mb-2 text-xl font-bold text-center">User Profile Details</h1>
+                <div class="ml-5">
+                <p class="font-bold mt-2 ml-3 text-xl">Email</p>
+                <input class="w-[80%] border p-1 rounded-full font-thin text-xl" type="email" placeholder="example@email.com" name="email"
+            value="<%= user.email%>">
+          </div> <br>
+          <div class="ml-5 mb-2 ">
+                <p class="font-bold mt-2 ml-3 text-xl ">UserName</p>
+                <input class="w-[70%] border p-1 rounded-full font-thin text-xl" type="text" placeholder="Username" name="username"
+            value="<%= user.username%>">
+          </div>
+          <button class="mt-2 ml-[18%] hover:bg-blue-600 w-1/2 bg-blue-500 px-5 py-2 text-white rounded-full font-bold text-slate-500" ">Update User Profile</button>
+        
+        </form>
+             
+            </div>
+           </div>
+
+           <div class="rightarea2 w-[45%] ml-4  h-full rounded-lg"> 
+            <div class="max-w-sm mx-auto mt-5 bg-white 
+            transition duration-150 ease-out hover:ease-in p-6 rounded-lg shadow-lg">
+              <div class="flex items-center mb-6">
+                  <img src="<%= user.avatar.url %>" alt="Meta Logo" class="w-10 h-10 mr-3 rounded-full">
+                  <h1 class="text-xl font-bold">Meta</h1>
+              </div>
+              <h2 class="text-lg font-semibold mb-4">Setting option</h2>
+              <p class="text-gray-600 mb-6">Manage your connected experiences and account settings across Meta technologies.</p>
+              <div class="space-y-4">
+                  <a href="/user/logout" class="flex items-center text-gray-700 hover:text-blue-600">
+                      <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A1.5 1.5 0 006 17h12a1.5 1.5 0 00.879-.804M18 12.5a6 6 0 11-12 0 6 6 0 0112 0z"></path>
+                      </svg>
+                      Logout User
+                  </a>
+                  <a href="#" class="flex items-center text-gray-700 hover:text-blue-600">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4H8a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V6a2 2 0 00-2-2z"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4L8 12m0-8l8 8"></path>
+                  </svg>
+                  
+                      Email -   <%= user.email%>
+                  </a>
+                  <a href="/user/reset-password/<%= user._id%>" class="flex items-center text-gray-700 hover:text-blue-600">
+                      <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 .621.05 1.224.146 1.804M21 12c0 4.08-2.617 7.447-6.146 8.659M5.121 17.804A9.003 9.003 0 003 12c0-4.08 2.617-7.447 6.146-8.659M12 11v2M12 3v2M12 19v2M4.93 4.93l1.415 1.415M16.24 16.24l1.415 1.415M1 12h2M21 12h2M4.93 19.07l1.415-1.415M16.24 7.76l1.415-1.415M19.07 19.07l1.415-1.415M7.76 7.76L9.175 6.345"></path>
+                      </svg>
+                     Reset Password
+                  </a>
+                  <a href="/user/delete/<%= user._id%>" class="flex items-center text-gray-700 hover:text-blue-600">
+                      <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 17l-4-4m0 0l-4-4m4 4h12m-6 4V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 4v8m0 0H4"></path>
+                      </svg>
+                      Delete User
+                  </a>
+                  <a href="#" class="flex items-center text-gray-700 hover:text-blue-600">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3h10c2.21 0 4 1.79 4 4s-1.79 4-4 4H7l8 8H5"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h8"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11h8"></path>
+                  </svg>
+                      Pay with RazorPay
+                  </a>
+              </div>
+              <a href="#" class="block mt-6 text-blue-600 hover:underline">See more in Accounts Centre</a>
+          </div>
+           </div>
+       </div>
+
+
+
+       <script>
+        const avatarimage = document.querySelector('.avatarimage');
+        const avatarinput = document.querySelector('.avatarinput');
+        const avatarform = document.querySelector('.avatarform');
+        avatarimage.addEventListener('click', () => {
+          avatarinput.click();
+        });
+        avatarinput.addEventListener('change', () => {
+          avatarform.submit();
+        });
+      </script>
+    <%- include('partials/footer')%>

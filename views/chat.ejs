@@ -1,0 +1,188 @@
+<%- include('partials/header') %>
+<!-- <%- include('partials/nav') %> -->
+
+<style>
+  .icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: #858282;
+    transition: color 0.3s;
+  }
+
+  .icon-container a {
+    display: block;
+    margin-top: 4px;
+    color: #858282;
+    text-decoration: none;
+    transition: color 0.3s;
+    
+  }
+
+
+
+  .icon-container i {
+    color: #858282;
+    transition: color 0.3s;
+  }
+
+  .icon-container:hover,
+  .icon-container a:hover,
+  .icon-container i:hover {
+    color: #5dade2;
+  }
+
+  /* Ensure to remove or add styles for .searchbox if used */
+
+</style>
+
+<div class="container w-full mx-auto h-screen flex gap-3">
+  <!-- Left Sidebar -->
+  <div class="leftarea1 w-20 h-screen flex flex-col">
+    <div class="group1 h-36">
+      <div class="text-center py-5">
+        <h1 class="text-3xl font-bold">CB</h1>
+      </div>
+    </div>
+    <div class="group2 h-96 flex flex-col justify-between items-center">
+      <div class="icon-container">
+        <i class="ri-home-2-fill text-2xl"></i>
+        <a href="/" class="text-xs font-bold">Home</a>
+      </div>
+      <div class="icon-container">
+        <i class="ri-user-2-fill text-2xl"></i>
+        <a href="/user/profile" class="text-xs font-bold">Profile</a>
+      </div>
+      <div class="icon-container">
+        <i class="ri-message-2-fill text-2xl"></i>
+        <a href="/contact" class="text-xs font-bold">Contact</a>
+      </div>
+      <div class="icon-container">
+        <i class="ri-account-pin-circle-fill text-2xl"></i>
+        <a href="/about" class="text-xs font-bold">About</a>
+      </div>
+      <div class="icon-container">
+        <i class="ri-settings-5-fill text-2xl"></i>
+        <a href="/user/settings" class="text-xs font-bold">Settings</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Sidebar -->
+  <div class="left bg-blue-100 w-96 h-screen rounded-lg">
+    <div class="text-3xl p-5 font-bold">CHATS
+      <i class="ri-message-2-fill text-2xl"></i>
+    </div>
+    <div class="py-3 pl-3 flex items-center">
+      <input class="p-2 w-72 bg-zinc-300 text-grey-600 rounded-lg focus:outline-none focus:ring focus:ring-blue-300" type="text" placeholder="Search for messages or User...">
+      <div class="searchbox p-1 bg-zinc-300 justify-between rounded-lg">
+        <i class="ri-search-line text-2xl w-5"></i>
+      </div>
+    </div>
+
+    <!-- User List -->
+    <div class="w-[320px] h-[70px] ml-[10px] mt-[20px] rounded-[10px] bg-white">
+      <div class="left w-full">
+        <div class="users flex flex-col gap-3">
+          <% users.forEach(singleUser => { %>
+          <div onclick="openChat('<%= singleUser.avatar.url %>', '<%= singleUser.username %>')" class="cursor-pointer user flex gap-3 items-center p-1 rounded-lg w-full">
+            <img class="h-[3.5rem] w-[3.5rem] mt-1 rounded-full" src="<%= singleUser.avatar.url %>" alt="">
+            <h1 class="text-1xl font-bold"><%= singleUser.username %></h1>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Area -->
+  <div class="right w-full bg-slate-100 h-screen rounded-lg relative">
+    <div class="cursor-pointer user flex gap-3 items-center p-2 bg-blue-200 rounded-lg w-full">
+      <img class="h-[5rem] w-[5rem] ml-3 mt-1 rounded-full" src="https://images.unsplash.com/photo-1484589065579-248aad0d8b13?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YWJzdHJhY3R8ZW58MHx8MHx8fDA%3D" alt="">
+      <h1 class="text-2xl font-bold">Username</h1>
+    </div>
+
+    <!-- Message Sender -->
+    <div class="fixed bottom-0 w-[60%] bg-white p-2 mx-auto rounded-lg shadow-lg flex items-center gap-3">
+      <input id="messageInput" class="flex-grow p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300" type="text" placeholder="Type a message...">
+      <i class="ri-mic-line text-2xl text-gray-500 cursor-pointer"></i>
+      <button id="sendMessage" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300">
+        <i class="ri-send-plane-line text-2xl"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+  const loggedInUsername = "<%= user.username %>";
+  let receiver = null;
+
+  socket.emit('join', loggedInUsername);
+
+  function openChat(userImage, username) {
+    receiver = username;
+    document.querySelector('.right .user img').src = userImage;
+    document.querySelector('.right .user h1').innerText = username;
+
+    socket.emit('openChat', {
+      receiver,
+      sender: loggedInUsername
+    });
+  }
+
+  socket.on("openChat", messages => {
+    messages.forEach(messageObject => {
+      if (messageObject.sender === loggedInUsername) {
+        appendOutgoingMessage(messageObject.text);
+      } else {
+        appendIncomingMessage(messageObject.text);
+      }
+    });
+  });
+
+  function appendOutgoingMessage(message) {
+    const template = `
+      <div class="message max-w-xs bg-blue-500 text-white ml-auto hover:bg-blue-600 p-2 rounded-lg rounded-br-none mt-2">
+        <p>${message}</p>
+      </div>`;
+    document.querySelector('.right').insertAdjacentHTML('beforeend', template);
+  }
+
+  function appendIncomingMessage(message) {
+    const template = `
+      <div class="message mr-auto self-start max-w-xs bg-gray-200 hover:bg-gray-300 text-gray-800 p-2 rounded-lg rounded-bl-none shadow-md mt-2">
+        <p>${message}</p>
+      </div>`;
+    document.querySelector('.right').insertAdjacentHTML('beforeend', template);
+  }
+
+  socket.on('max', messageObject => {
+    appendIncomingMessage(messageObject.message);
+  });
+
+  document.querySelector('#sendMessage').addEventListener('click', () => {
+    const message = document.querySelector('#messageInput').value;
+    if (message.trim()) {
+      appendOutgoingMessage(message);
+      socket.emit('sony', {
+        message,
+        receiver,
+        sender: loggedInUsername
+      });
+      document.querySelector('#messageInput').value = ''; // Clear the input field after sending
+    }
+  });
+
+  // Ensure to add event listener to send message on 'Enter' key press
+  document.querySelector('#messageInput').addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+      document.querySelector('#sendMessage').click();
+    }
+  });
+
+</script>
+
+<%- include('partials/footer') %>
