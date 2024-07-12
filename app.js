@@ -4,6 +4,9 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const session = require("express-session");
+const passport = require("passport");
+const UserCollection = require("./models/user.schema");
 
 // file uploader
 const fileUpload = require("express-fileupload");
@@ -17,9 +20,7 @@ var indexRoutes = require("./routes/index.routes");
 
 var app = express();
 
-const session = require("express-session");
-const passport = require("passport");
-const UserCollection = require("./models/user.schema");
+
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

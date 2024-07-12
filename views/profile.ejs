@@ -14,9 +14,11 @@
   
     <!-- Cover Photo -->
     <div class="relative ">
-      <img src="<%= user.avatar.url %>" alt="" class="w-full h-72 bg-red-600 object-cover">
+      <div class="w-full h-72 bg-black absolute opacity-25" ></div>
+      <img  src="<%= user.avatar.url %>" alt="" class="w-full h-72 bg-red-600 object-cover z-10">
       <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
-        <img src="<%= user.avatar.url %>" alt="" class="w-32 h-32 rounded-full border-4 border-slate-200 object-centre ">
+        <img class="avatarimage rounded-full w-[9vmax] h-[9vmax] object-cover mt-4 border-4  " src="<%= user.avatar.url%>"
+        alt="No image Found">
       </div>
     </div>
   
@@ -30,6 +32,7 @@
     <div class=" mt-8 text-center">
       <a href="/user/logout" class="inline-block bg-orange-500 text-white px-4 py-2 rounded-lg edit-btn hover:bg-blue-500 ease-in">Logout</a>
       <a href="/user/settings" class="inline-block bg-orange-500 text-white px-4 py-2 rounded-lg edit-btn hover:bg-blue-500 ease-out">Edit Profile</a>
+      <a href="/post/create" class="inline-block bg-orange-500 text-white px-4 py-2 rounded-lg edit-btn hover:bg-blue-500 ease-out">Creare Post</a>
 
       </div>
     </div>

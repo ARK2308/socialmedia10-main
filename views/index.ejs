@@ -1,21 +1,96 @@
 <%- include('partials/header')%>
-  <!--  -->
-  <%- include('partials/nav')%>
-    <!--  -->
-    <div class="w-[80%] mx-auto p-10">
+<style>
+    .image-slider {
+        position: relative;
+        /* width: 100%;
+        height: 100%; */
+        opacity: 0.4;
+    }
 
-      <div class="w-full bg-zinc-700 rounded">
-        <h1 class=" mb-10 text-white text-5xl font-bold">This is Homepage</h1>
-        <a class="bg-red-300 px-5 py-2 text-white rounded" href="/login">Start Your Journey</a>
+    .image-slider div {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+    }
+</style>
+
+<body class="bg-black text-white h-screen flex items-center justify-center">
+
+  <div class="container mx-auto flex flex-col md:flex-row w-full h-[90%]  ">
+    
+      <!-- Left Section -->
+      <div class=" w-full md:w-1/2  mt-[10%] flex-col h-[50%] items-center justify-center ">
+        <nav class=" mt-10 flex flex-col space-y-3">
+          <h1 class="text-2xl bg-zinc-900 text-black text-white rounded-lg border border-gray-400 p-2 flex">
+              <a href="/about" class="block nav-item">About</a>
+              <i class="ri-account-box-fill text-2xl ml-3 mt-1"></i>
+          </h1>
+          <h1 class="text-2xl bg-zinc-900 text-black  text-white border rounded-lg border-gray-400  p-2 flex">
+              <a href="/contact" class="block nav-item">Contact</a>
+              <i class="ri-account-box-fill text-2xl ml-3 mt-1"></i>
+          </h1>
+          <h1 class="text-2xl bg-zinc-900 text-black text-white border rounded-lg border-gray-400 p-2 flex">
+              <a href="/login" class="block nav-item">Login</a>
+              <i class="ri-account-box-fill text-2xl ml-3 mt-1"></i>
+          </h1>
+      </nav>
       </div>
 
-      <div class="w-full">
-        <%= JSON.stringify(posts)%>
-      </div>
+      <!-- Right Section -->
+      <div class="w-full md:w-1/2 flex items-center justify-center  ">
+          <!-- This is the part where you will add your image -->
+            <!-- Image Slider -->
+            <div class="image-slider m-10 w-[100%] h-[80%]">
+                <div  style="background-image: url('https://images.unsplash.com/photo-1535303311164-664fc9ec6532?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+                <div style="background-image: url('https://images.unsplash.com/photo-1603145733146-ae562a55031e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+                <div style="background-image: url('https://images.unsplash.com/photo-1598018553943-29ace5bf9867?q=80&w=1510&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+            </div>
+  </div>
+  <script>
+    // GSAP animation
+    window.addEventListener('load', () => {
+        const timeline = gsap.timeline();
 
-    </div>
+        timeline.from(".nav-item", {
+            duration: 0.5,
+            x: (index) => index % 2 === 0 ? '-100%' : '100%', // Alternate left and right
+            opacity: 0,
+            stagger: 0.2
+        })
+        .from(".image-section", {
+          duration: 0.5,
+            x: (index) => index % 2 === 0 ?  // Alternate left and right
+            opacity: 0,
+            stagger: 0.2
+        });
+    });
+
+    // image slider
+       // Function to start the image slider
+       function startSlider() {
+            const slides = document.querySelectorAll(".image-slider div");
+            let currentSlide = 0;
+
+            function showNextSlide() {
+                gsap.to(slides[currentSlide], { duration: 1, opacity: 0 });
+                currentSlide = (currentSlide + 1) % slides.length;
+                gsap.to(slides[currentSlide], { duration: 1, opacity: 1 });
+            }
+
+            setInterval(showNextSlide, 1000); // Change image every 1 second
+        }
+
+        // Start the slider after the window loads
+        window.addEventListener('load', () => {
+            const slides = document.querySelectorAll(".image-slider div");
+            gsap.to(slides[0], { duration: 1, opacity: 1, onComplete: startSlider });
+        });
+</script>
+
+</body>
 
 
-
-    <!--  -->
     <%- include('partials/footer')%>
