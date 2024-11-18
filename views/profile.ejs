@@ -1,111 +1,110 @@
-<%- include('partials/header')%>
+<%- include('partials/header') %>
+<%- include('partials/nav') %>
+ <!-- <div class="flex justify-between text-white py-10 w-[80%] mx-auto"></div> -->
 
-<%- include('partials/nav')%>
-  <!--  -->
-  
-    <!--  -->
-
-    
-    <body class="bg-slate-100">
-      
-    </body>
-
-  
-  
+<body class="bg-black">
     <!-- Cover Photo -->
-    <div class="relative ">
-      <div class="w-full h-72 bg-black absolute opacity-25" ></div>
-      <img  src="<%= user.avatar.url %>" alt="" class="w-full h-72 bg-red-600 object-cover z-10">
-      <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
-        <img class="avatarimage rounded-full w-[9vmax] h-[9vmax] object-cover mt-4 border-4  " src="<%= user.avatar.url%>"
-        alt="No image Found">
-      </div>
+    <div class="relative">
+        <div class="w-full h-72 bg-black absolute opacity-25"></div>
+        <div class="image-slider w-full h-72 bg-red-600 z-10">
+            <% const images = ['image1.webp', 'image2.webp', 'image3.webp', 'image4.webp', 'image5.webp']; %>
+            <% images.forEach(image => { %>
+                <img src="/images/<%= image %>" alt="Image <%= image %>" class="absolute top-0 left-0 w-full h-72 object-cover">
+            <% }); %>
+        </div>
+        <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
+            <img class="avatarimage rounded-full w-[9vmax] h-[9vmax] object-cover mt-4 border-4" src="<%= user.avatar.url %>" alt="No image Found">
+        </div>
     </div>
-  
-    <!-- User Info -->
-    <div class="mt-16 text-center ">
-      <h1 class="text-3xl font-bold"><%= user.username %></h1>
-      <p class="text-gray-600"><%= user.email %></p>
-    </div>
-  
-    <!-- Navigation Tabs -->
-    <div class=" mt-8 text-center">
-      <a href="/user/logout" class="inline-block bg-orange-500 text-white px-4 py-2 rounded-lg edit-btn hover:bg-blue-500 ease-in">Logout</a>
-      <a href="/user/settings" class="inline-block bg-orange-500 text-white px-4 py-2 rounded-lg edit-btn hover:bg-blue-500 ease-out">Edit Profile</a>
-      <a href="/post/create" class="inline-block bg-orange-500 text-white px-4 py-2 rounded-lg edit-btn hover:bg-blue-500 ease-out">Creare Post</a>
 
-      </div>
+    <!-- User Info -->
+    <div class="mt-16 text-center">
+        <h1 class="text-3xl font-bold text-blue-400"><%= user.username %></h1>
+        <p class="text-gray-600"><%= user.email %></p>
     </div>
-  
+
+    <!-- Navigation Tabs -->
+    <div class="mt-8 text-center">
+        <a href="/user/logout" class="inline-block bg-orange-500 text-white px-4 py-2 rounded-lg edit-btn hover:bg-blue-500 ease-in">Logout</a>
+        <a href="/user/settings" class="inline-block bg-orange-500 text-white px-4 py-2 rounded-lg edit-btn hover:bg-blue-500 ease-out">Edit Profile</a>
+        <a href="/post/create" class="inline-block bg-orange-500 text-white px-4 py-2 rounded-lg edit-btn hover:bg-blue-500 ease-out">Create Post</a>
+    </div>
+
     <!-- Main Content -->
     <div class="container mx-auto flex mt-8 space-x-4">
-      
-      <!-- Sidebar -->
-      <aside class="w-1/4 space-y-4">
-        <div class="bg-white p-4 rounded-lg shadow-md glass-effect">
-          <h2 class="text-lg font-bold">Intro</h2>
-          <p class="text-gray-700 mt-2">Welcome. <br> "Passionate about tech, creativity, and innovation. Sharing insights, stories, and ideas to inspire and connect with like-minded individuals. Let's journey together!" </p>
-        </div>
-        <div class="bg-white p-4 rounded-lg shadow-md glass-effect">
-          <h2 class="text-lg font-bold">Photos</h2>
-          <div class="grid grid-cols-3 gap-2 mt-2">
-            <img src="https://via.placeholder.com/100" alt="Photo" class="w-full h-auto rounded-lg">
-            <img src="https://via.placeholder.com/100" alt="Photo" class="w-full h-auto rounded-lg">
-            <img src="https://via.placeholder.com/100" alt="Photo" class="w-full h-auto rounded-lg">
-          </div>
-        </div>
-      </aside>
-  
-      <!-- Posts -->
-      <main class="w-3/4 space-y-4">
-        <!-- Post Composer -->
-        <div class="bg-white p-4 rounded-lg shadow-lg glass-effect">
-          <textarea class="w-full p-2 border border-black-300 rounded-lg leading-tight focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition duration-300" placeholder="What's on your mind?"></textarea>
-          <div class="flex justify-end mt-2">
-            <button class="bg-orange-500 text-white px-4 py-2 rounded-lg">Post</button>
-          </div>
-        </div>
-  
-        <!-- Example Post -->
-        <% posts.forEach((post,index)=> { %>
-        <div class="bg-white p-4 rounded-lg shadow-lg glass-effect">
-          <div class="flex items-center space-x-4">
-            <img src="<%= user.avatar.url %>" alt="User" class="w-10 h-10 rounded-full">
-            <div>
-              <h2 class="text-lg font-bold"><%= user.username %></h2>
-              <p class="text-gray-600 text-sm">2 hours ago</p>
+        <!-- Sidebar -->
+        <aside class="w-1/4 space-y-4">
+            <div class="bg-white p-4 rounded-lg shadow-md glass-effect">
+                <h2 class="text-lg font-bold">Intro</h2>
+                <p class="text-gray-700 mt-2">Welcome. <br> "Passionate about tech, creativity, and innovation. Sharing insights, stories, and ideas to inspire and connect with like-minded individuals. Let's journey together!" </p>
             </div>
-          </div>
+            <div class="bg-white p-4 rounded-lg shadow-md glass-effect">
+                <h2 class="text-lg font-bold">Photos</h2>
+                <div class="grid grid-cols-3 gap-2 mt-2">
+                    <img src="https://via.placeholder.com/100" alt="Photo" class="w-full h-auto rounded-lg">
+                    <img src="https://via.placeholder.com/100" alt="Photo" class="w-full h-auto rounded-lg">
+                    <img src="https://via.placeholder.com/100" alt="Photo" class="w-full h-auto rounded-lg">
+                </div>
+            </div>
+        </aside>
 
-          <h1 class="text-2xl font-bold">
-            <%= post.title%>
-          </h1>
-          <img class="h-[100px]" src="<%= post.media.thumbnailUrl%>" alt="">
-          
-          <div class="flex justify-between items-center mt-4">
-            <span>
-              <%= post.likes.length%>
-            </span>
-            <a href="/post/like/<%= post._id%>" class="text-gray-600 hover:text-gray-900">Like</a>
-       
-          </div>
-        </div>
-        <%}) %>
-  
-      </main>
+        <!-- Posts -->
+        <main class="w-3/4 space-y-4">
+            <!-- Post Composer -->
+            <div class="bg-white p-4 rounded-lg shadow-lg glass-effect">
+                <textarea class="w-full p-2 border border-black-300 rounded-lg leading-tight focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition duration-300" placeholder="What's on your mind?"></textarea>
+                <div class="flex justify-end mt-2">
+                    <button class="bg-orange-500 text-white px-4 py-2 rounded-lg">Post</button>
+                </div>
+            </div>
+
+            <!-- Example Post -->
+            <% posts.forEach((post, index) => { %>
+            <div class="bg-white p-4 rounded-lg shadow-lg glass-effect">
+                <div class="flex items-center space-x-4">
+                    <img src="<%= user.avatar.url %>" alt="User" class="w-10 h-10 rounded-full">
+                    <div>
+                        <h2 class="text-lg font-bold"><%= user.username %></h2>
+                        <p class="text-gray-600 text-sm">2 hours ago</p>
+                    </div>
+                </div>
+
+                <h1 class="text-2xl font-bold"><%= post.title %></h1>
+                <img class="h-[100px]" src="<%= post.media.thumbnailUrl %>" alt="">
+
+                <div class="flex justify-between items-center mt-4">
+                    <span><%= post.likes.length %></span>
+                    <a href="/post/like/<%= post._id %>" class="text-gray-600 hover:text-gray-900">Like</a>
+                </div>
+            </div>
+            <% }) %>
+        </main>
     </div>
-  
-  
-  
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll(".image-slider img");
+            let currentSlide = 0;
 
+            function showNextSlide() {
+                const previousSlide = currentSlide;
+                currentSlide = (currentSlide + 1) % slides.length;
 
+                gsap.to(slides[previousSlide], { duration: 1, x: '-100%', ease: "power2.inOut" });
+                gsap.fromTo(slides[currentSlide],
+                    { x: '100%' },
+                    { duration: 1, x: '0%', ease: "power2.inOut" }
+                );
+            }
 
+            setInterval(showNextSlide, 2000); // Change image every 2 seconds
 
+            gsap.fromTo(slides[0],
+                { x: '100%' },
+                { duration: 1, x: '0%', ease: "power2.inOut" }
+            );
+        });
+    </script>
+</body>
 
-
-
-
-
-
-    <%- include('partials/footer')%>
+<%- include('partials/footer') %>
